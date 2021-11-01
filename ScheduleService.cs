@@ -37,11 +37,13 @@ namespace backgroundworker
 
         private async Task DoWorkAsync(int id)
         {
-            _logger.LogInformation("{counter} START: {time}", id, DateTimeOffset.Now);
+            _logger.LogInformation("{counter} START: {time}"
+                , id.ToString().PadLeft(2, '0'), DateTimeOffset.Now);
 
             await Task.Delay(7_500);
 
-            _logger.LogError("{counter} DONE: {time}", id, DateTimeOffset.Now);
+            _logger.LogWarning("{counter}  DONE: {time}",
+                id.ToString().PadLeft(2, '0'), DateTimeOffset.Now);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

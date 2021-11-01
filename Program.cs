@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backgroundworker.TaskWorker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -38,10 +39,13 @@ namespace backgroundworker
                 .UseSerilog()
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+
                     // services.AddHostedService<Worker>();
                     // services.AddHostedService<LongRunner>();
-                    // services.AddHostedService<Runner>();
-                    services.AddHostedService<ScheduleService>();
+                    services.AddHostedService<Runner>();
+                    //services.AddHostedService<ScheduleService>();
+                    services.AddHostedService<TaskWorkerService>();
                 });
     }
 }
