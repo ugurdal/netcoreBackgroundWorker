@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backgroundworker.ScopedService;
 using backgroundworker.TaskWorker;
 using backgroundworker.TaskWorker2;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,6 @@ namespace backgroundworker
 
             try
             {
-
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
@@ -44,12 +44,18 @@ namespace backgroundworker
 
                     // services.AddHostedService<Worker>();
                     // services.AddHostedService<LongRunner>();
-                    services.AddHostedService<Runner>();
+                    // services.AddHostedService<Runner>();
                     // services.AddHostedService<ScheduleService>();
-                    services.AddHostedService<TaskWorkerService>();
+                    // services.AddHostedService<TaskWorkerService>();
 
                     // services.AddSingleton<IBackgroundTaskQueue2, BackgroundTaskQueue2>();
                     // services.AddHostedService<TaskWorkerService2>();
+
+                    services.AddHostedService<ConsumeScopedServiceHostedService>();
+                    services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+
+                    services.AddHostedService<ConsumeScopedService2>();
+                    services.AddScoped<IScopeSettingsService, ScopeSettingsService>();
                 });
     }
 }
